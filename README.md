@@ -1,2 +1,2 @@
-# Scrapping
+# Skyscrapper
 Repositorio de web scrapping
