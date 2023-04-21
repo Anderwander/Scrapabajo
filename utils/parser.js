@@ -42,19 +42,62 @@ class Parser {
     return this.document.querySelector(".d-flex time").textContent;
   }
 
-  getQuestionVoteCount() {
-    return this.document
-      .querySelector(".js-voting-container .js-vote-count")
-      .textContent.trim();
+  getVoteCount(element) {
+    const votes = element.querySelector(
+      ".js-voting-container .js-vote-count"
+    ).textContent;
+    return parseInt(votes);
   }
-  /* getQuestionContent() {
-    return this.document.querySelector("div.postcell").innerHTML;
-  } */
-  /* getFirstAnswer() {
-    return this.document.querySelectorAll(
-      "div.answercell:first-of-type .s-prose p"
+  getQuestionDom() {
+    return this.document.querySelector(".question");
+  }
+
+  getQuestion() {
+    const question = this.getQuestionDom();
+    const votes = this.getVoteCount(question);
+    const title = this.getTitle(question);
+    const date = this.getDateAgo(question);
+    //const userName = this.getQuestionUserName(question);
+    const questionContent = this.getQuestionContent(question);
+    return {
+      votes,
+      title,
+      date,
+      //userName,
+      questionContent,
+    };
+  }
+
+  /* getUserName() {
+    return Array.from(this.document.querySelector(".user-details a")).map(
+      (name) => name.textContent
     );
   } */
+
+  getQuestionContent() {
+    return this.document.querySelector(".postcell").outerHTML;
+  }
+
+  getAnswersDom() {
+    return Array.from(this.document.querySelectorAll(".answer"));
+  }
+
+  getAnswerContent(element) {
+    const answerContent = element.querySelector(".answercell").outerHTML;
+    return answerContent;
+  }
+
+  getLinks() {
+    const links = Array.from(this.document.querySelectorAll("a")).map(
+      (link) => link.href
+    );
+    return links;
+  }
+  /* getAnswers() {
+    const answers = this.getAnswersDom();
+    return answers.map((answer) => {});
+  } */
+
   // /**
   //  * Devuelve links de una página web
   //  * @method

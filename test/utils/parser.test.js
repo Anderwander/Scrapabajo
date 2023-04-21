@@ -8,6 +8,11 @@ describe("Parser", () => {
     parser = new Parser(html);
   });
 
+  it("Debería buscar los links de la página", () => {
+    const links = parser.getLinks();
+    expect(links[0]).toEqual("about:blank#");
+  });
+
   it("Debería buscar el título de la pregunta", () => {
     const title = parser.getTitle();
     expect(title).toBe("Error: Failed to lookup view in Express");
@@ -19,21 +24,50 @@ describe("Parser", () => {
   });
 
   it("Debería buscar la puntuación de la pregunta", () => {
-    const qVoteCount = parser.getQuestionVoteCount();
-    console.log(`jeje${qVoteCount}jeje`);
-    console.log(qVoteCount.length);
-    expect(qVoteCount).toBe("79"); //Aquí por qué toContain y no toBe?
+    const question = parser.getQuestionDom();
+    const VoteCount = parser.getVoteCount(question);
+    expect(VoteCount).toBe(79);
   });
 
-  /* it("Debería coger el contenido de la pregunta", () => {
-    const question = parser.getQuestionContent();
-    expect(question).toContain(
-      "I am a newbie to jest and JavaScript. I am trying to write a test to compare innerHTML. It is not working. Any ideas how to make it work?"
+  it("debería sacar la pregunta en formato DOM", () => {
+    const question = parser.getQuestionDom();
+    expect(question.innerHTML).toContain(
+      "I'm trying to make a better experience of nodeJS and i don't really like to get all the script in one file."
     );
+  });
+
+  it("Debería coger tooooooooddooooo el contenido de la pregunta", () => {
+    const question = parser.getQuestion();
+    expect(question.votes).toBe(79);
+    expect(question.title).toBe("Error: Failed to lookup view in Express");
+    expect(question.date).toBe("11 years ago");
+    //expect(question.userName).toBe("nax");
+    expect(question.questionContent).toContain(
+      "I'm trying to make a better experience of nodeJS and i don't really like to get all the script in one file."
+    );
+  });
+
+  /* it("Debería darte el nombre de usuario de la pregunta", () => {
+    const userName = parser.getUserName();
+    console.log("THIS IS :", userName);
+    expect(userName[0]).toContain("nax");
   }); */
 
-  /* it("Debería darte todas las respuestas", () => {
-    const firstAnswer = parser.getFirstAnswer();
-    expect(firstAnswer).toContain("Adding to @mihai's answer:");
-  }); */
+  it("Debería dar el contenido solo los parrafos de la pregunta", () => {
+    const content = parser.getQuestionContent();
+    expect(content).toContain(
+      "I'm trying to make a better experience of nodeJS and i don't really like to get all the script in one file."
+    );
+  });
+
+  it("Debería darte todas las respuestas", () => {
+    const answers = parser.getAnswersDom();
+    expect(answers[0].innerHTML).toContain("Adding to @mihai's answer:");
+  });
+
+  it("Debería mostrar el contenido de la respuesta", () => {
+    const answer = parser.getAnswersDom()[0];
+    const answerContent = parser.getAnswerContent(answer);
+    expect(answerContent).toContain("Adding to @mihai's answer:");
+  });
 });
