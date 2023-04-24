@@ -1,6 +1,4 @@
 import stackoverflowController from "../../controllers/stackoverflowController.js";
-import Parser from "../../utils/parser.js";
-import Scraper from "../../utils/scraper.js";
 
 describe("stackoverflow controller", () => {
   it("Debería mostrar el contenido de la página", async () => {

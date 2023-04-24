@@ -4,6 +4,14 @@ import googleController from "./googleController.js";
 import Question from "../models/question.js";
 import Answer from "../models/answer.js";
 
+/**
+ * Obtiene URLs de Stack Overflow relacionadas con una consulta dada.
+ * @private
+ * @async
+ * @function
+ * @param {string} query - Consulta de búsqueda.
+ * @returns {Promise<string[]>} - Array de URLs de Stack Overflow.
+ */
 async function getStackoverflowUrls(query) {
   const googleLinks = await googleController.searchLinks(
     "stackoverflow" + query
@@ -14,6 +22,14 @@ async function getStackoverflowUrls(query) {
   return urls;
 }
 
+/**
+ * Obtiene el contenido de múltiples URLs de Stack Overflow relacionadas con una consulta dada.
+ * @private
+ * @async
+ * @function
+ * @param {string} query - Consulta de búsqueda.
+ * @returns {Promise<object[]>} - Array de objetos con el contenido de las URLs.
+ */
 async function getMultipleContent(query) {
   const links = await getStackoverflowUrls(query);
   const contents = await Promise.all(
@@ -22,6 +38,15 @@ async function getMultipleContent(query) {
   return contents;
 }
 
+/**
+ * Obtiene el contenido de una URL de Stack Overflow y lo guarda en la base de datos.
+ * @private
+ * @async
+ * @function
+ * @param {string} url - URL de Stack Overflow.
+ * @param {string} query - Consulta de búsqueda.
+ * @returns {Promise<object>} - Objeto con el contenido obtenido de la URL.
+ */
 async function getContent(url, query) {
   //scraper
   const scraper = new Scraper();

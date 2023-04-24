@@ -2,8 +2,24 @@ import express from "express";
 import path from "path";
 import stackoverflowController from "./controllers/stackoverflowController.js";
 
+/**
+ * @description Aplicación express para el controlador de Stackoverflow.
+ * @constant
+ * @public
+ * @name app
+ * @type {object}
+ */
 const app = express();
 
+/**
+ * @description Ruta para la página de inicio.
+ * @function
+ * @public
+ * @name app.get/
+ * @param {object} req - Objeto de solicitud.
+ * @param {object} res - Objeto de respuesta.
+ * @returns {undefined}
+ */
 app.get("/", async (req, res) => {
   try {
     const _dirname = path.resolve();
@@ -14,6 +30,16 @@ app.get("/", async (req, res) => {
       .send("Que seas paranoico no quiere decir que no te sigan...");
   }
 });
+
+/**
+ * @description Ruta para la búsqueda de contenido.
+ * @function
+ * @public
+ * @name app.get/search
+ * @param {object} req - Objeto de solicitud.
+ * @param {object} res - Objeto de respuesta.
+ * @returns {undefined}
+ */
 
 app.get("/search", async (req, res) => {
   //try {
@@ -36,12 +62,17 @@ app.get("/search", async (req, res) => {
         `
           )
           .join("")}</div>`);
-  /* } catch (error) {
-    throw new Error(error);
-    res.status(500).send("TONTOOOOO...");
-  } */
 });
 
+/**
+ * @public
+ * @description Ruta para la página de inicio.
+ * @function
+ * @name app.get/
+ * @param {object} req - Objeto de solicitud.
+ * @param {object} res - Objeto de respuesta.
+ * @returns {undefined}
+ */
 app.get("/", async (req, res) => {
   try {
     const query = req.query.q;
@@ -52,6 +83,18 @@ app.get("/", async (req, res) => {
   }
 });
 
+/**
+ * @public
+ * @description Iniciar el servidor en el puerto 3000.
+ * @function
+ * @name app.listen
+ * @param {number} port - Puerto en el que se inicia el servidor.
+ * @returns {undefined}
+ */
 app.listen(3000, () => {
   console.log("Server started on port 3001");
 });
+/* } catch (error) {
+    throw new Error(error);
+    res.status(500).send("TONTOOOOO...");
+  } */
