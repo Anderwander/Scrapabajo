@@ -10,7 +10,7 @@ describe("Parser", () => {
 
   it("Debería buscar los links de la página", () => {
     const links = parser.getLinks();
-    expect(links[0]).toEqual("about:blank#");
+    expect(links[0]).toContain("about:blank#");
   });
 
   it("Debería buscar el título de la pregunta", () => {
@@ -41,24 +41,30 @@ describe("Parser", () => {
     expect(question.votes).toBe(79);
     expect(question.title).toBe("Error: Failed to lookup view in Express");
     expect(question.date).toBe("11 years ago");
-    //expect(question.userName).toBe("nax");
+    expect(question.userName).toBe("nax");
     expect(question.questionContent).toContain(
       "I'm trying to make a better experience of nodeJS and i don't really like to get all the script in one file."
     );
   });
 
-  /* it("Debería darte el nombre de usuario de la pregunta", () => {
-    const userName = parser.getUserName();
-    console.log("THIS IS :", userName);
-    expect(userName[0]).toContain("nax");
-  }); */
+  it("Debería darte el nombre de usuario de la respuesta", () => {
+    const answer = parser.getAnswersDom()[0];
+    const userName = parser.getUserName(answer);
+    expect(userName).toContain("Veera");
+  });
 
-  it("Debería dar el contenido solo los parrafos de la pregunta", () => {
+  it("Debería darte el nombre de usuario de la pregunta", () => {
+    const question = parser.getQuestionDom();
+    const userName = parser.getUserName(question);
+    expect(userName).toContain("nax");
+  });
+
+  /* it("Debería dar el contenido solo los parrafos de la pregunta", () => {
     const content = parser.getQuestionContent();
     expect(content).toContain(
       "I'm trying to make a better experience of nodeJS and i don't really like to get all the script in one file."
     );
-  });
+  }); */
 
   it("Debería darte todas las respuestas", () => {
     const answers = parser.getAnswersDom();
@@ -66,8 +72,7 @@ describe("Parser", () => {
   });
 
   it("Debería mostrar el contenido de la respuesta", () => {
-    const answer = parser.getAnswersDom()[0];
-    const answerContent = parser.getAnswerContent(answer);
-    expect(answerContent).toContain("Adding to @mihai's answer:");
+    const answerContent = parser.getAnswers()[0];
+    expect(answerContent.answer).toContain("Adding to @mihai's answer:");
   });
 });

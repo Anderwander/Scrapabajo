@@ -54,37 +54,33 @@ class Parser {
 
   getQuestion() {
     const question = this.getQuestionDom();
+    const title = this.getTitle();
     const votes = this.getVoteCount(question);
-    const title = this.getTitle(question);
     const date = this.getDateAgo(question);
-    //const userName = this.getQuestionUserName(question);
-    const questionContent = this.getQuestionContent(question);
+    const userName = this.getUserName(question);
+    const questionContent = question.innerHTML;
     return {
-      votes,
       title,
+      votes,
       date,
-      //userName,
+      userName,
       questionContent,
     };
   }
 
-  /* getUserName() {
-    return Array.from(this.document.querySelector(".user-details a")).map(
-      (name) => name.textContent
-    );
-  } */
-
-  getQuestionContent() {
-    return this.document.querySelector(".postcell").outerHTML;
+  getUserName(element) {
+    const userName = Array.from(element.querySelectorAll(".user-details a"));
+    if (userName.length == 0) return "";
+    if (userName.length == 1) return userName[0].textContent.trim();
+    return userName[userName.length - 1].textContent.trim();
   }
+
+  /* getQuestionContent() {
+    return this.document.querySelector(".postcell").outerHTML;
+  } */
 
   getAnswersDom() {
     return Array.from(this.document.querySelectorAll(".answer"));
-  }
-
-  getAnswerContent(element) {
-    const answerContent = element.querySelector(".answercell").outerHTML;
-    return answerContent;
   }
 
   getLinks() {
@@ -93,10 +89,26 @@ class Parser {
     );
     return links;
   }
-  /* getAnswers() {
-    const answers = this.getAnswersDom();
-    return answers.map((answer) => {});
+  /* getGoogleLinks() {
+    const links = Array.from(this.document.querySelectorAll("#search a")).map(
+      (link) => link.href
+    );
+    return links;
   } */
+  getAnswers() {
+    const answers = this.getAnswersDom();
+    return answers.map((answer) => {
+      const votes = this.getVoteCount(answer);
+      const date = this.getDateAgo(answer);
+      const userName = this.getUserName(answer);
+      return {
+        votes,
+        date,
+        userName,
+        answers: answer.outerHTML,
+      };
+    });
+  }
 
   // /**
   //  * Devuelve links de una página web

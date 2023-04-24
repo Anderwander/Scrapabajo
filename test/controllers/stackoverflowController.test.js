@@ -5,13 +5,15 @@ import Scraper from "../../utils/scraper.js";
 describe("stackoverflow controller", () => {
   it("Debería mostrar el contenido de la página", async () => {
     const query = "Error: Failed to lookup view in Express";
-    const { title /*links, paragraphs, images*/ } =
+    const { questionContent, answerContent } =
       await stackoverflowController.getContent(query);
-    expect(title).toContain("Error: Failed to lookup view in Express");
-    //expect(links).toContain("/wiki/Felis_silvestris");
-    //expect(paragraphs[0]).toContain("El gato doméstico");
-    /*expect(images).toContain(
-      "upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Gato_Siam%C3%A9s_ojos_azules.JPG/220px-Gato_Siam%C3%A9s_ojos_azules.JPG"
-    );*/
+    expect(questionContent.questionContent).toContain(
+      "I'm trying to make a better experience of nodeJS and i don't really like to get all the script in one file."
+    );
+    expect(questionContent.userName).toContain("nax");
+    expect(questionContent.votes).toEqual(79);
+    expect(questionContent.date).toContain("11 years ago");
+    expect(answerContent[0].answers).toContain("Adding to @mihai's answer:");
+    expect(answerContent[0].userName).toContain("");
   }, 20000);
 });

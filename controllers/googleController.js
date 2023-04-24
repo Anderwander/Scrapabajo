@@ -11,7 +11,7 @@ async function searchLinks(query) {
   const content = await scraper.getPageContent(url);
   //parser
   const parser = new Parser(content);
-  const links = parser.getLinks(url);
+  const links = parser.getLinks();
   await scraper.close();
 
   return links;
