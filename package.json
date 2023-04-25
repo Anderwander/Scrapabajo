@@ -7,13 +7,14 @@
   "scripts": {
     "start": "nodemon index.js",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
-    "doc": "node node_modules/jsdoc/jsdoc.js -c jsdoc.json -r -p"
+    "doc": "node node_modules/jsdoc/jsdoc.js -c jsdoc.json -r"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
     "jsdom": "^21.1.1",
+    "mongoose": "^7.0.4",
     "puppeteer": "^19.9.1"
   },
   "devDependencies": {
