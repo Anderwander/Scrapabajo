@@ -41,7 +41,7 @@ app.get("/", async (req, res) => {
  * @returns {undefined}
  */
 
-app.get("/search", async (req, res) => {
+/* app.get("/search", async (req, res) => {
   //try {
   const query = req.query.query;
   const response = await stackoverflowController.getMultipleContent(query);
@@ -62,7 +62,7 @@ app.get("/search", async (req, res) => {
         `
           )
           .join("")}</div>`);
-});
+}); */
 
 /**
  * @public
@@ -73,9 +73,9 @@ app.get("/search", async (req, res) => {
  * @param {object} res - Objeto de respuesta.
  * @returns {undefined}
  */
-app.get("/", async (req, res) => {
+app.get("/search", async (req, res) => {
   try {
-    const query = req.query.q;
+    const query = req.query.query;
     const content = await stackoverflowController.getMultipleContent(query);
     res.status(500).send(content);
   } catch (error) {
